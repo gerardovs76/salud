@@ -1,0 +1,576 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Consultas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+	<ion-grid>
+		<ion-row>
+			<ion-col size-md="6" offset-md="3">
+				<ion-card>
+					<ion-card-header>
+						<ion-title>Chat</ion-title>
+					</ion-card-header>
+					<ion-card-content id="chat-list">
+						<ion-item>
+							<p class="ion-text-start">Bienvenid@</p>
+						</ion-item>
+						<ion-item>
+							<p class="ion-text-start">Por favor conteste las preguntas a continuación</p>
+						</ion-item>
+					</ion-card-content>
+				</ion-card>
+			</ion-col>
+		</ion-row>
+		<ion-row>
+			<ion-col id="preguntas">
+				<div *ngIf="contador == 'fecha de nacimiento'">
+					<ion-item>
+						<p class="ion-text-end">¿Cuál es su <strong>Fecha de Nacimiento</strong>?</p>
+					</ion-item>
+					<ion-item>
+					  <ion-label position="floating">(Dia/Mes/Año)</ion-label>
+					  <ion-datetime displayFormat="DD/MM/YYYY" min="1914-01-01" max="2019-12-31" [(ngModel)]="preguntaFecha"></ion-datetime>
+					</ion-item>
+				</div>
+				<div *ngIf="contador == 'situacion de vivienda'">
+					<ion-item>
+						<p class="ion-text-end">¿Cuál es su situación actual de vivienda?</p>
+					</ion-item>
+					<ion-list>
+					  <ion-radio-group value="vivienda" [(ngModel)]="situacionVivienda">
+					    <ion-item>
+					      <ion-label>Vivo solo</ion-label>
+					      <ion-radio slot="start" value="0"></ion-radio>
+					    </ion-item>
+					    <ion-item>
+					      <ion-label>Vivo con mi familia</ion-label>
+					      <ion-radio slot="start" value="1"></ion-radio>
+					    </ion-item>
+					    <p class="ion-margin-horizontal">(En un apartamento compartido o en una instalación comunitaria)</p>
+					  </ion-radio-group>
+					</ion-list>
+				</div>
+				<div *ngIf="contador == 'situacion de trabajo'">
+					<ion-item>
+						<p class="ion-text-end">¿Trabaja en alguna de las siguientes areas?</p>
+					</ion-item>
+					<ion-list>
+					  <ion-radio-group value="trabajo" [(ngModel)]="situacionTrabajo">
+					    <ion-item>
+					      <ion-label>En el campo médico</ion-label>
+					      <ion-radio slot="start" value="0"></ion-radio>
+					    </ion-item>
+					    <ion-item>
+					      <ion-label>En una instalación comunitaria</ion-label>
+					      <ion-radio slot="start" value="1"></ion-radio>
+					    </ion-item>
+					    <p class="ion-margin-horizontal">(Escuela, Asilo, Universidad, Hogar)</p>
+					    <ion-item>
+					      <ion-label>No, en ninguno de los anteriores</ion-label>
+					      <ion-radio slot="start" value="2"></ion-radio>
+					    </ion-item>
+					  </ion-radio-group>
+					</ion-list>
+				</div>
+				<div *ngIf="contador == 'fuma'">
+					<ion-item>
+						<p class="ion-text-end">¿Usted fuma?</p>
+					</ion-item>
+					<ion-list>
+					  <ion-radio-group value="fuma" [(ngModel)]="fuma">
+					    <ion-item>
+					      <ion-label>Si</ion-label>
+					      <ion-radio slot="start" value="0"></ion-radio>
+					    </ion-item>
+					    <ion-item>
+					      <ion-label>No</ion-label>
+					      <ion-radio slot="start" value="1"></ion-radio>
+					    </ion-item>
+					  </ion-radio-group>
+					</ion-list>
+				</div>
+				<div *ngIf="contador == 'viaje'">
+					<ion-item>
+						<p class="ion-text-end">¿Ha estado viajando en las últimas 4 semanas?</p>
+					</ion-item>
+					<ion-list>
+					  <ion-radio-group value="viaje" [(ngModel)]="viaje">
+					    <ion-item>
+					      <ion-label>Si</ion-label>
+					      <ion-radio slot="start" value="0"></ion-radio>
+					    </ion-item>
+					    <ion-item>
+					      <ion-label>No</ion-label>
+					      <ion-radio slot="start" value="1"></ion-radio>
+					    </ion-item>
+					  </ion-radio-group>
+					</ion-list>
+				</div>
+				<div *ngIf="contador == 'fecha de viaje'">
+					<ion-item>
+						<p class="ion-text-end">¿Indique la fecha en que regreso?</p>
+					</ion-item>
+					<ion-item>
+						<p class="ion-text-end">¿Asegúrese de ingresar una fecha correcta?</p>
+					</ion-item>
+					<ion-item>
+					  <ion-label position="floating">(Dia/Mes)</ion-label>
+					  <ion-datetime displayFormat="DD/MM" min="2020-03-10" max="2020-04-07" [(ngModel)]="viajeFecha"></ion-datetime>
+					</ion-item>
+				</div>
+				<div *ngIf="contador == 'contacto confimado'">
+					<ion-item>
+						<p class="ion-text-end">¿Ha estado en contacto con algún caso confirmado?</p>
+					</ion-item>
+					<ion-list>
+					  <ion-radio-group value="contactoConfirmado" [(ngModel)]="contactoConfirmado">
+					    <ion-item>
+					      <ion-label>Si</ion-label>
+					      <ion-radio slot="start" value="0"></ion-radio>
+					    </ion-item>
+					    <ion-item>
+					      <ion-label>No</ion-label>
+					      <ion-radio slot="start" value="1"></ion-radio>
+					    </ion-item>
+					  </ion-radio-group>
+					</ion-list>
+				</div>
+				<div *ngIf="contador == 'contacto sospechoso'">
+					<ion-item>
+						<p class="ion-text-end">¿Ha estado en contacto con algún caso sospechoso?</p>
+					</ion-item>
+					<ion-list>
+					  <ion-radio-group value="contactoSospechoso" [(ngModel)]="contactoSospechoso">
+					    <ion-item>
+					      <ion-label>Si</ion-label>
+					      <ion-radio slot="start" value="0"></ion-radio>
+					    </ion-item>
+					    <ion-item>
+					      <ion-label>No</ion-label>
+					      <ion-radio slot="start" value="1"></ion-radio>
+					    </ion-item>
+					  </ion-radio-group>
+					</ion-list>
+				</div>
+				<div *ngIf="contador =='fecha de contacto'">
+					<ion-item>
+						<p class="ion-text-end">¿Indique la fecha en que tuvo el último contacto?</p>
+					</ion-item>
+					<ion-item>
+						<p class="ion-text-end">¿Asegúrese de ingresar una fecha correcta?</p>
+					</ion-item>
+					<ion-item>
+					  <ion-label position="floating">(Dia/Mes)</ion-label>
+					  <ion-datetime displayFormat="DD/MM" min="2020-03-10" max="2020-04-07" [(ngModel)]="contactoFecha"></ion-datetime>
+					</ion-item>
+				</div>
+				<div *ngIf="contador == 'fiebre ayer'">
+					<ion-item>
+						<p class="ion-text-end">¿Ha tenido fiebre (más de 38 &deg; C) en las últimas 24 horas?</p>
+					</ion-item>
+					<ion-list>
+					  <ion-radio-group value="fiebreAyer" [(ngModel)]="fiebreAyer">
+					    <ion-item>
+					      <ion-label>Si</ion-label>
+					      <ion-radio slot="start" value="0"></ion-radio>
+					    </ion-item>
+					    <ion-item>
+					      <ion-label>No</ion-label>
+					      <ion-radio slot="start" value="1"></ion-radio>
+					    </ion-item>
+					  </ion-radio-group>
+					</ion-list>
+				</div>
+				<div *ngIf="contador == 'fiebre anterior'">
+					<ion-item>
+						<p class="ion-text-end">¿Ha tenido fiebre (más de 38 &deg; C) en los últimos 4 días?</p>
+					</ion-item>
+					<ion-list>
+					  <ion-radio-group value="fiebreAnterior" [(ngModel)]="fiebreAnterior">
+					    <ion-item>
+					      <ion-label>Si</ion-label>
+					      <ion-radio slot="start" value="0"></ion-radio>
+					    </ion-item>
+					    <ion-item>
+					      <ion-label>No</ion-label>
+					      <ion-radio slot="start" value="1"></ion-radio>
+					    </ion-item>
+					  </ion-radio-group>
+					</ion-list>
+				</div>
+				<div *ngIf="contador =='temperatura'">
+					<ion-item>
+						<p class="ion-text-end">¿Cuál ha sido la temperatura más alta que ha tenido, aprox.?</p>
+					</ion-item>
+					<ion-list>
+					  <ion-radio-group value="temperatura" [(ngModel)]="temperatura">
+					    <ion-item>
+					      <ion-label>Menos de 38 &deg; C</ion-label>
+					      <ion-radio slot="start" value="0"></ion-radio>
+					    </ion-item>
+					    <ion-item>
+					      <ion-label>38 &deg; C</ion-label>
+					      <ion-radio slot="start" value="1"></ion-radio>
+					    </ion-item>
+					    <ion-item>
+					      <ion-label>39 &deg; C</ion-label>
+					      <ion-radio slot="start" value="2"></ion-radio>
+					    </ion-item>
+					    <ion-item>
+					      <ion-label>40 &deg; C</ion-label>
+					      <ion-radio slot="start" value="3"></ion-radio>
+					    </ion-item>
+					    <ion-item>
+					      <ion-label>41 &deg; C</ion-label>
+					      <ion-radio slot="start" value="4"></ion-radio>
+					    </ion-item>
+					    <ion-item>
+					      <ion-label>42 &deg; C</ion-label>
+					      <ion-radio slot="start" value="5"></ion-radio>
+					    </ion-item>
+					    <ion-item>
+					      <ion-label>Más de 42 &deg; C</ion-label>
+					      <ion-radio slot="start" value="6"></ion-radio>
+					    </ion-item>
+					    <ion-item>
+					      <ion-label>No lo sé</ion-label>
+					      <ion-radio slot="start" value="7"></ion-radio>
+					    </ion-item>
+					  </ion-radio-group>
+					</ion-list>
+				</div>
+				<div *ngIf="contador == 'escalosfrios'">
+					<ion-item>
+						<p class="ion-text-end">¿Tiene escalosfríos?</p>
+					</ion-item>
+					<ion-list>
+					  <ion-radio-group value="escalosfrios" [(ngModel)]="escalosfrios">
+					    <ion-item>
+					      <ion-label>Si</ion-label>
+					      <ion-radio slot="start" value="0"></ion-radio>
+					    </ion-item>
+					    <ion-item>
+					      <ion-label>No</ion-label>
+					      <ion-radio slot="start" value="1"></ion-radio>
+					    </ion-item>
+					  </ion-radio-group>
+					</ion-list>
+				</div>
+				<div *ngIf="contador == 'cansado'">
+					<ion-item>
+						<p class="ion-text-end">¿Se siente cansado o débil?</p>
+					</ion-item>
+					<ion-list>
+					  <ion-radio-group value="cansado" [(ngModel)]="cansado">
+					    <ion-item>
+					      <ion-label>Si</ion-label>
+					      <ion-radio slot="start" value="0"></ion-radio>
+					    </ion-item>
+					    <ion-item>
+					      <ion-label>No</ion-label>
+					      <ion-radio slot="start" value="1"></ion-radio>
+					    </ion-item>
+					  </ion-radio-group>
+					</ion-list>
+				</div>
+				<div *ngIf="contador == 'dolor'">
+					<ion-item>
+						<p class="ion-text-end">¿Tiene dolor en las extremidades?</p>
+					</ion-item>
+					<ion-list>
+					  <ion-radio-group value="dolor" [(ngModel)]="dolor">
+					    <ion-item>
+					      <ion-label>Si</ion-label>
+					      <ion-radio slot="start" value="0"></ion-radio>
+					    </ion-item>
+					    <ion-item>
+					      <ion-label>No</ion-label>
+					      <ion-radio slot="start" value="1"></ion-radio>
+					    </ion-item>
+					  </ion-radio-group>
+					</ion-list>
+				</div>
+				<div *ngIf="contador == 'tos'">
+					<ion-item>
+						<p class="ion-text-end">¿Tiene tos persistente?</p>
+					</ion-item>
+					<ion-list>
+					  <ion-radio-group value="tos" [(ngModel)]="tos">
+					    <ion-item>
+					      <ion-label>Si</ion-label>
+					      <ion-radio slot="start" value="0"></ion-radio>
+					    </ion-item>
+					    <ion-item>
+					      <ion-label>No</ion-label>
+					      <ion-radio slot="start" value="1"></ion-radio>
+					    </ion-item>
+					  </ion-radio-group>
+					</ion-list>
+				</div>
+				<div *ngIf="contador == 'moqueo'">
+					<ion-item>
+						<p class="ion-text-end">¿Tiene moqueo?</p>
+					</ion-item>
+					<ion-list>
+					  <ion-radio-group value="moqueo" [(ngModel)]="moqueo">
+					    <ion-item>
+					      <ion-label>Si</ion-label>
+					      <ion-radio slot="start" value="0"></ion-radio>
+					    </ion-item>
+					    <ion-item>
+					      <ion-label>No</ion-label>
+					      <ion-radio slot="start" value="1"></ion-radio>
+					    </ion-item>
+					  </ion-radio-group>
+					</ion-list>
+				</div>
+				<div *ngIf="contador == 'diarrea'">
+					<ion-item>
+						<p class="ion-text-end">¿Tiene diarrea?</p>
+					</ion-item>
+					<ion-list>
+					  <ion-radio-group value="diarrea" [(ngModel)]="diarrea">
+					    <ion-item>
+					      <ion-label>Si</ion-label>
+					      <ion-radio slot="start" value="0"></ion-radio>
+					    </ion-item>
+					    <ion-item>
+					      <ion-label>No</ion-label>
+					      <ion-radio slot="start" value="1"></ion-radio>
+					    </ion-item>
+					  </ion-radio-group>
+					</ion-list>
+				</div>
+				<div *ngIf="contador == 'garganta'">
+					<ion-item>
+						<p class="ion-text-end">¿Tiene dolor de garganta?</p>
+					</ion-item>
+					<ion-list>
+					  <ion-radio-group value="garganta" [(ngModel)]="garganta">
+					    <ion-item>
+					      <ion-label>Si</ion-label>
+					      <ion-radio slot="start" value="0"></ion-radio>
+					    </ion-item>
+					    <ion-item>
+					      <ion-label>No</ion-label>
+					      <ion-radio slot="start" value="1"></ion-radio>
+					    </ion-item>
+					  </ion-radio-group>
+					</ion-list>
+				</div>
+				<div *ngIf="contador == 'cabeza'">
+					<ion-item>
+						<p class="ion-text-end">¿Tiene dolor de cabeza?</p>
+					</ion-item>
+					<ion-list>
+					  <ion-radio-group value="cabeza" [(ngModel)]="cabeza">
+					    <ion-item>
+					      <ion-label>Si</ion-label>
+					      <ion-radio slot="start" value="0"></ion-radio>
+					    </ion-item>
+					    <ion-item>
+					      <ion-label>No</ion-label>
+					      <ion-radio slot="start" value="1"></ion-radio>
+					    </ion-item>
+					  </ion-radio-group>
+					</ion-list>
+				</div>
+				<div *ngIf="contador == 'aliento'">
+					<ion-item>
+						<p class="ion-text-end">¿Se queda sin aliento muy rápido?</p>
+					</ion-item>
+					<ion-list>
+					  <ion-radio-group value="aliento" [(ngModel)]="aliento">
+					    <ion-item>
+					      <ion-label>Si</ion-label>
+					      <ion-radio slot="start" value="0"></ion-radio>
+					    </ion-item>
+					    <ion-item>
+					      <ion-label>No</ion-label>
+					      <ion-radio slot="start" value="1"></ion-radio>
+					    </ion-item>
+					  </ion-radio-group>
+					</ion-list>
+				</div>
+				<div *ngIf="contador == 'olfato'">
+					<ion-item>
+						<p class="ion-text-end">¿Ha perdido el olfato o el gusto?</p>
+					</ion-item>
+					<ion-list>
+					  <ion-radio-group value="olfato" [(ngModel)]="olfato">
+					    <ion-item>
+					      <ion-label>Si</ion-label>
+					      <ion-radio slot="start" value="0"></ion-radio>
+					    </ion-item>
+					    <ion-item>
+					      <ion-label>No</ion-label>
+					      <ion-radio slot="start" value="1"></ion-radio>
+					    </ion-item>
+					  </ion-radio-group>
+					</ion-list>
+				</div>
+				<div *ngIf="contador == 'enfermedad pulmonar'">
+					<ion-item>
+						<p class="ion-text-end">¿Tiene alguna enfermedad pulmonar crónica?</p>
+					</ion-item>
+					<ion-list>
+					  <ion-radio-group value="enfermedadPulmonar" [(ngModel)]="enfermedadPulmonar">
+					    <ion-item>
+					      <ion-label>Si</ion-label>
+					      <ion-radio slot="start" value="0"></ion-radio>
+					    </ion-item>
+					    <ion-item>
+					      <ion-label>No</ion-label>
+					      <ion-radio slot="start" value="1"></ion-radio>
+					    </ion-item>
+					    <ion-item>
+					      <ion-label>No lo sé</ion-label>
+					      <ion-radio slot="start" value="2"></ion-radio>
+					    </ion-item>
+					  </ion-radio-group>
+					</ion-list>
+				</div>
+				<div *ngIf="contador == 'diabetes'">
+					<ion-item>
+						<p class="ion-text-end">¿Tiene diabetes?</p>
+					</ion-item>
+					<ion-list>
+					  <ion-radio-group value="diabetes" [(ngModel)]="diabetes">
+					    <ion-item>
+					      <ion-label>Si</ion-label>
+					      <ion-radio slot="start" value="0"></ion-radio>
+					    </ion-item>
+					    <ion-item>
+					      <ion-label>No</ion-label>
+					      <ion-radio slot="start" value="1"></ion-radio>
+					    </ion-item>
+					    <ion-item>
+					      <ion-label>No lo sé</ion-label>
+					      <ion-radio slot="start" value="2"></ion-radio>
+					    </ion-item>
+					  </ion-radio-group>
+					</ion-list>
+				</div>
+				<div *ngIf="contador == 'cardiaca'">
+					<ion-item>
+						<p class="ion-text-end">¿Tiene alguna enfermedad cardiaca?</p>
+					</ion-item>
+					<ion-list>
+					  <ion-radio-group value="cardiaca" [(ngModel)]="cardiaca">
+					    <ion-item>
+					      <ion-label>Si</ion-label>
+					      <ion-radio slot="start" value="0"></ion-radio>
+					    </ion-item>
+					    <ion-item>
+					      <ion-label>No</ion-label>
+					      <ion-radio slot="start" value="1"></ion-radio>
+					    </ion-item>
+					    <ion-item>
+					      <ion-label>No lo sé</ion-label>
+					      <ion-radio slot="start" value="2"></ion-radio>
+					    </ion-item>
+					  </ion-radio-group>
+					</ion-list>
+				</div>
+				<div *ngIf="contador == 'obesidad'">
+					<ion-item>
+						<p class="ion-text-end">¿Tiene obesidad?</p>
+					</ion-item>
+					<ion-list>
+					  <ion-radio-group value="obesidad" [(ngModel)]="obesidad">
+					    <ion-item>
+					      <ion-label>Si</ion-label>
+					      <ion-radio slot="start" value="0"></ion-radio>
+					    </ion-item>
+					    <ion-item>
+					      <ion-label>No</ion-label>
+					      <ion-radio slot="start" value="1"></ion-radio>
+					    </ion-item>
+					    <ion-item>
+					      <ion-label>No lo sé</ion-label>
+					      <ion-radio slot="start" value="2"></ion-radio>
+					    </ion-item>
+					  </ion-radio-group>
+					</ion-list>
+				</div>
+				<div *ngIf="contador == 'embarazada'">
+					<ion-item>
+						<p class="ion-text-end">¿Está embarazada?</p>
+					</ion-item>
+					<ion-list>
+					  <ion-radio-group value="embarazada" [(ngModel)]="embarazada">
+					    <ion-item>
+					      <ion-label>Si</ion-label>
+					      <ion-radio slot="start" value="0"></ion-radio>
+					    </ion-item>
+					    <ion-item>
+					      <ion-label>No</ion-label>
+					      <ion-radio slot="start" value="1"></ion-radio>
+					    </ion-item>
+					    <ion-item>
+					      <ion-label>No lo sé</ion-label>
+					      <ion-radio slot="start" value="2"></ion-radio>
+					    </ion-item>
+					  </ion-radio-group>
+					</ion-list>
+				</div>
+				<div *ngIf="contador == 'esteroides'">
+					<ion-item>
+						<p class="ion-text-end">¿Está tomando esteroides actualmente?</p>
+					</ion-item>
+					<ion-list>
+					  <ion-radio-group value="esteroides" [(ngModel)]="esteroides">
+					    <ion-item>
+					      <ion-label>Si</ion-label>
+					      <ion-radio slot="start" value="0"></ion-radio>
+					    </ion-item>
+					    <ion-item>
+					      <ion-label>No</ion-label>
+					      <ion-radio slot="start" value="1"></ion-radio>
+					    </ion-item>
+					    <ion-item>
+					      <ion-label>No lo sé</ion-label>
+					      <ion-radio slot="start" value="2"></ion-radio>
+					    </ion-item>
+					  </ion-radio-group>
+					</ion-list>
+				</div>
+				<div *ngIf="contador == 'inmunosupresores'">
+					<ion-item>
+						<p class="ion-text-end">¿Actualmente está tomando inmunosupresores?</p>
+					</ion-item>
+					<ion-item><div class="ion-margin">Los medicamentos inmunosupresores se toman después de un transplante de órganos, en la terapia de una enfermedad autoinmune o durante la quimioterapia.</div></ion-item>
+					<ion-list>
+					  <ion-radio-group value="inmunosupresores" [(ngModel)]="inmunosupresores">
+					    <ion-item>
+					      <ion-label>Si</ion-label>
+					      <ion-radio slot="start" value="0"></ion-radio>
+					    </ion-item>
+					    <ion-item>
+					      <ion-label>No</ion-label>
+					      <ion-radio slot="start" value="1"></ion-radio>
+					    </ion-item>
+					    <ion-item>
+					      <ion-label>No lo sé</ion-label>
+					      <ion-radio slot="start" value="2"></ion-radio>
+					    </ion-item>
+					  </ion-radio-group>
+					</ion-list>
+				</div>
+			</ion-col>
+		</ion-row>
+		<ion-row>
+			<ion-col id="btn-preguntas">
+					<ion-button id="siguiente" color="success" class="ion-margin ion-text-right">Siguiente</ion-button>
+			</ion-col>
+		</ion-row>
+		<ion-row>
+			<ion-col id="col-resultados">
+				
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+	
+</ion-content>
